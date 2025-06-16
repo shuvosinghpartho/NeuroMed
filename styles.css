@@ -1,0 +1,504 @@
+:root {
+    --primary: #6C5CE7;
+    --secondary: #00CEC9;
+    --accent: #FD79A8;
+    --dark: #2D3436;
+    --light: #F5F6FA;
+    --glass-bg: rgba(255, 255, 255, 0.25);
+    --glass-border: rgba(255, 255, 255, 0.18);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    --text-primary: #2D3436;
+    --text-secondary: #636E72;
+}
+
+/* Futuristic Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #F5F6FA;
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+}
+
+.background-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(108, 92, 231, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(108, 92, 231, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -1;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+/* Glass Card Effect */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 16px;
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
+
+/* App Header */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo-icon {
+    font-size: 1.75rem;
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.logo span {
+    color: var(--primary);
+}
+
+.ai-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.pulse-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--secondary);
+    box-shadow: 0 0 0 0 rgba(0, 206, 201, 0.7);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 206, 201, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(0, 206, 201, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 206, 201, 0);
+    }
+}
+
+/* Symptom Input Section */
+.input-header {
+    margin-bottom: 1.5rem;
+}
+
+.input-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.input-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.search-container {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+#symptom-search {
+    flex: 1;
+    padding: 1rem 1.25rem;
+    border: none;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.6);
+    font-size: 1rem;
+    color: var(--text-primary);
+    box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+#symptom-search:focus {
+    outline: none;
+    box-shadow: 0 4px 20px -5px rgba(108, 92, 231, 0.2);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+#symptom-search::placeholder {
+    color: var(--text-secondary);
+}
+
+.ai-button {
+    padding: 0 1.25rem;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ai-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px -5px rgba(108, 92, 231, 0.4);
+}
+
+.ai-icon {
+    font-size: 1.1rem;
+}
+
+.suggestions-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    margin-top: 0.5rem;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    max-height: 250px;
+    overflow-y: auto;
+    display: none;
+}
+
+.suggestion-item {
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.suggestion-item:hover {
+    background: rgba(108, 92, 231, 0.05);
+    color: var(--primary);
+}
+
+.selected-section {
+    margin-top: 1.5rem;
+}
+
+.section-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.selected-symptoms-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    min-height: 3rem;
+}
+
+.symptom-tag {
+    background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(0, 206, 201, 0.1));
+    backdrop-filter: blur(5px);
+    border-radius: 50px;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    border: 1px solid rgba(108, 92, 231, 0.15);
+    transition: all 0.3s ease;
+}
+
+.symptom-tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px -5px rgba(108, 92, 231, 0.3);
+}
+
+.symptom-tag button {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.symptom-tag button:hover {
+    color: var(--accent);
+}
+
+.predict-button {
+    width: 100%;
+    padding: 1.25rem;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.predict-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -10px rgba(108, 92, 231, 0.5);
+}
+
+.button-icon {
+    font-size: 1.25rem;
+}
+
+/* Results Section */
+.results-container {
+    position: relative;
+}
+
+.result-card {
+    padding: 2.5rem;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.result-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.confidence-badge {
+    background: rgba(0, 206, 201, 0.1);
+    border: 1px solid rgba(0, 206, 201, 0.3);
+    border-radius: 50px;
+    padding: 0.5rem 1rem;
+    font-weight: 700;
+    color: var(--secondary);
+}
+
+.diagnosis-main {
+    margin-bottom: 2.5rem;
+}
+
+.diagnosis-chip {
+    background: rgba(253, 121, 168, 0.1);
+    border: 1px solid rgba(253, 121, 168, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.chip-icon {
+    font-size: 1.5rem;
+}
+
+.diagnosis-chip h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.confidence-visualization {
+    margin-top: 1.5rem;
+}
+
+.confidence-track {
+    height: 8px;
+    background: rgba(108, 92, 231, 0.1);
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+}
+
+.confidence-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    border-radius: 4px;
+    width: 0;
+    transition: width 1s ease;
+}
+
+.confidence-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.recommendations-section {
+    margin-top: 2rem;
+}
+
+.recommendations-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.recommendation-card {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 12px;
+    padding: 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.recommendation-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px -5px rgba(0, 0, 0, 0.1);
+}
+
+.recommendation-card .rec-icon {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+}
+
+.ai-footnote {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.ai-avatar {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.ai-footnote p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.new-analysis-button {
+    width: 100%;
+    padding: 1rem;
+    border: 1px dashed rgba(108, 92, 231, 0.5);
+    border-radius: 12px;
+    background: transparent;
+    color: var(--primary);
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.new-analysis-button:hover {
+    background: rgba(108, 92, 231, 0.05);
+    border-style: solid;
+}
+
+.new-analysis-button .icon {
+    font-size: 1.25rem;
+}
+
+/* Animations */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem 1rem;
+    }
+    
+    .glass-card {
+        padding: 1.5rem;
+    }
+    
+    .search-container {
+        flex-direction: column;
+    }
+    
+    .ai-button {
+        justify-content: center;
+        padding: 0.75rem;
+    }
+    
+    .recommendations-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Utility Classes */
+.hidden {
+    display: none;
+}
