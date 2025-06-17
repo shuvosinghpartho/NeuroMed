@@ -9,6 +9,9 @@
     --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
     --text-primary: #2D3436;
     --text-secondary: #636E72;
+    --success: #2ecc71; /* For high confidence */
+    --warning: #f1c40f; /* For medium confidence */
+    --danger: #e74c3c;  /* For low confidence */
 }
 
 /* Futuristic Base Styles */
@@ -33,7 +36,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: 
+    background-image:
         linear-gradient(rgba(108, 92, 231, 0.05) 1px, transparent 1px),
         linear-gradient(90deg, rgba(108, 92, 231, 0.05) 1px, transparent 1px);
     background-size: 40px 40px;
@@ -139,6 +142,10 @@ body {
     color: var(--text-secondary);
 }
 
+.symptom-input-wrapper {
+    position: relative; /* For suggestions dropdown positioning */
+}
+
 .search-container {
     display: flex;
     gap: 0.75rem;
@@ -180,12 +187,18 @@ body {
     gap: 0.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
+    font-size: 0.9rem; /* Slightly smaller to fit text */
 }
 
-.ai-button:hover {
+.ai-button:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 6px 15px -5px rgba(108, 92, 231, 0.4);
 }
+.ai-button:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+
 
 .ai-icon {
     font-size: 1.1rem;
@@ -193,29 +206,35 @@ body {
 
 .suggestions-dropdown {
     position: absolute;
-    top: 100%;
+    /* top: 100%; Removed to be relative to symptom-input-wrapper */
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.98); /* More opaque */
     border-radius: 12px;
-    margin-top: 0.5rem;
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
-    z-index: 10;
+    margin-top: 0.5rem; /* Space from search bar */
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow */
+    z-index: 1000; /* Ensure it's on top */
     max-height: 250px;
     overflow-y: auto;
     display: none;
+    border: 1px solid rgba(0,0,0,0.05);
 }
 
 .suggestion-item {
-    padding: 1rem 1.25rem;
+    padding: 0.9rem 1.25rem; /* Adjusted padding */
     cursor: pointer;
     transition: all 0.2s ease;
+    font-size: 0.95rem;
 }
 
 .suggestion-item:hover {
-    background: rgba(108, 92, 231, 0.05);
+    background: rgba(108, 92, 231, 0.08); /* Darker hover */
     color: var(--primary);
 }
+.suggestion-item:not(:last-child) {
+    border-bottom: 1px solid rgba(0,0,0,0.03);
+}
+
 
 .selected-section {
     margin-top: 1.5rem;
@@ -234,8 +253,19 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    min-height: 3rem;
+    min-height: 3rem; /* Ensures space even when empty */
+    padding: 0.5rem;
+    background-color: rgba(0,0,0,0.02);
+    border-radius: 8px;
 }
+.symptom-tag.placeholder-tag {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    opacity: 0.7;
+    padding: 0.5rem 0; /* Adjust padding for placeholder */
+}
+
 
 .symptom-tag {
     background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(0, 206, 201, 0.1));
@@ -248,6 +278,7 @@ body {
     font-size: 0.9rem;
     border: 1px solid rgba(108, 92, 231, 0.15);
     transition: all 0.3s ease;
+    color: var(--text-primary);
 }
 
 .symptom-tag:hover {
@@ -261,13 +292,17 @@ body {
     color: var(--text-secondary);
     cursor: pointer;
     padding: 0;
-    font-size: 1rem;
+    font-size: 1.1rem; /* Slightly larger for easier click */
+    line-height: 1;
+    margin-left: 0.25rem;
     display: flex;
     align-items: center;
+    opacity: 0.7;
 }
 
 .symptom-tag button:hover {
     color: var(--accent);
+    opacity: 1;
 }
 
 .predict-button {
@@ -280,16 +315,25 @@ body {
     font-weight: 600;
     font-size: 1rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Adjusted for better spacing */
     align-items: center;
     cursor: pointer;
     margin-top: 1.5rem;
     transition: all 0.3s ease;
 }
+.predict-button .button-text {
+    flex-grow: 1;
+    text-align: center;
+}
 
-.predict-button:hover {
+.predict-button:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 10px 25px -10px rgba(108, 92, 231, 0.5);
+}
+.predict-button:disabled {
+    background: linear-gradient(135deg, #aaa, #bbb);
+    cursor: wait;
+    opacity: 0.8;
 }
 
 .button-icon {
@@ -299,6 +343,15 @@ body {
 /* Results Section */
 .results-container {
     position: relative;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Added for reveal animation */
+}
+.results-container.hidden {
+    opacity: 0;
+    transform: translateY(30px);
+    pointer-events: none; /* Prevent interaction when hidden */
+    height: 0; /* Collapse space when hidden */
+    overflow: hidden; /* Clip content when hidden */
+    margin-bottom: 0; /* Remove margin when hidden */
 }
 
 .result-card {
@@ -322,21 +375,36 @@ body {
 }
 
 .confidence-badge {
-    background: rgba(0, 206, 201, 0.1);
-    border: 1px solid rgba(0, 206, 201, 0.3);
     border-radius: 50px;
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1.2rem; /* Adjusted padding */
     font-weight: 700;
-    color: var(--secondary);
+    font-size: 0.9rem; /* Adjusted font size */
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 }
+.confidence-badge.high {
+    background: rgba(var(--success), 0.1);
+    border: 1px solid rgba(var(--success), 0.3);
+    color: var(--success);
+}
+.confidence-badge.medium {
+    background: rgba(var(--warning), 0.15);
+    border: 1px solid rgba(var(--warning), 0.4);
+    color: #b08d0b; /* Darker yellow for text */
+}
+.confidence-badge.low {
+    background: rgba(var(--danger), 0.1);
+    border: 1px solid rgba(var(--danger), 0.3);
+    color: var(--danger);
+}
+
 
 .diagnosis-main {
     margin-bottom: 2.5rem;
 }
 
 .diagnosis-chip {
-    background: rgba(253, 121, 168, 0.1);
-    border: 1px solid rgba(253, 121, 168, 0.2);
+    background: rgba(108, 92, 231, 0.05); /* Using primary color variant */
+    border: 1px solid rgba(108, 92, 231, 0.15);
     border-radius: 12px;
     padding: 1.5rem;
     display: flex;
@@ -347,11 +415,13 @@ body {
 
 .chip-icon {
     font-size: 1.5rem;
+    color: var(--primary); /* Icon color */
 }
 
 .diagnosis-chip h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 1.4rem; /* Slightly smaller */
+    font-weight: 600; /* Less bold */
+    color: var(--text-primary);
 }
 
 .confidence-visualization {
@@ -359,9 +429,9 @@ body {
 }
 
 .confidence-track {
-    height: 8px;
+    height: 10px; /* Slightly thicker */
     background: rgba(108, 92, 231, 0.1);
-    border-radius: 4px;
+    border-radius: 5px; /* Rounded */
     margin-bottom: 0.5rem;
     overflow: hidden;
 }
@@ -369,9 +439,9 @@ body {
 .confidence-fill {
     height: 100%;
     background: linear-gradient(90deg, var(--primary), var(--secondary));
-    border-radius: 4px;
+    border-radius: 5px;
     width: 0;
-    transition: width 1s ease;
+    transition: width 1s cubic-bezier(0.25, 0.1, 0.25, 1); /* Smoother transition */
 }
 
 .confidence-labels {
@@ -389,39 +459,54 @@ body {
     font-size: 1.1rem;
     margin-bottom: 1rem;
     color: var(--text-primary);
+    font-weight: 600;
 }
 
 .recommendations-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Wider cards */
+    gap: 1.25rem; /* Increased gap */
 }
 
 .recommendation-card {
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.7); /* Slightly more opaque */
     border-radius: 12px;
-    padding: 1rem;
+    padding: 1.25rem; /* Increased padding */
     border: 1px solid rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
+    display: flex; /* For icon and text alignment */
+    flex-direction: column; /* Stack icon and text */
+    align-items: flex-start; /* Align items to start */
 }
 
 .recommendation-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px -5px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px) scale(1.02); /* More pronounced hover */
+    box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.15);
 }
 
 .recommendation-card .rec-icon {
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.5rem; /* Larger icon */
+    margin-bottom: 0.75rem;
     color: var(--primary);
+    background-color: rgba(var(--primary), 0.1);
+    padding: 0.5rem;
+    border-radius: 8px;
+    display: inline-block; /* To contain padding */
 }
+.recommendation-card .rec-text {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
 
 .ai-footnote {
     display: flex;
     gap: 1rem;
-    margin-top: 2rem;
+    margin-top: 2.5rem; /* Increased margin */
     padding-top: 1.5rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border-top: 1px solid rgba(0, 0, 0, 0.08); /* Slightly darker border */
+    align-items: center; /* Vertically align avatar and text */
 }
 
 .ai-avatar {
@@ -435,6 +520,7 @@ body {
     justify-content: center;
     font-weight: 700;
     flex-shrink: 0;
+    font-size: 0.9rem;
 }
 
 .ai-footnote p {
@@ -456,11 +542,13 @@ body {
     gap: 0.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-top: 1rem; /* Added margin */
 }
 
 .new-analysis-button:hover {
     background: rgba(108, 92, 231, 0.05);
     border-style: solid;
+    border-color: rgba(108, 92, 231, 0.7);
 }
 
 .new-analysis-button .icon {
@@ -474,31 +562,68 @@ body {
     100% { transform: translateY(0px); }
 }
 
+/* Temporary Message Style */
+.temp-message {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-40px); /* Start off-screen */
+    background-color: var(--dark);
+    color: var(--light);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 2000;
+    font-size: 0.95rem;
+    opacity: 0;
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
         padding: 1.5rem 1rem;
     }
-    
+
     .glass-card {
         padding: 1.5rem;
     }
-    
+
     .search-container {
         flex-direction: column;
     }
-    
-    .ai-button {
-        justify-content: center;
-        padding: 0.75rem;
+    .search-container #symptom-search {
+        width: 100%;
     }
-    
+    .ai-button {
+        width: 100%; /* Full width on mobile */
+        justify-content: center;
+        padding: 0.9rem; /* Adjusted padding */
+    }
+    .suggestions-dropdown {
+       width: 100%; /* Ensure it spans the input width */
+       left: 0;
+    }
+
+
     .recommendations-grid {
         grid-template-columns: 1fr;
+    }
+
+    .result-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    .diagnosis-chip h3 {
+        font-size: 1.2rem;
     }
 }
 
 /* Utility Classes */
-.hidden {
-    display: none;
+.hidden { /* More robust hidden class */
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
 }
