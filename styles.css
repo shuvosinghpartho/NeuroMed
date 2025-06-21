@@ -9,9 +9,11 @@
     --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
     --text-primary: #2D3436;
     --text-secondary: #636E72;
-    --success: #2ecc71; /* For high confidence */
-    --warning: #f1c40f; /* For medium confidence */
-    --danger: #e74c3c;  /* For low confidence */
+    --success: #2ecc71;
+    --warning: #f1c40f;
+    --danger: #e74c3c;
+    --report-bg: rgba(255, 255, 255, 0.6); /* Slightly more opaque for report card */
+    --report-border-color: rgba(0, 0, 0, 0.08);
 }
 
 /* Futuristic Base Styles */
@@ -23,11 +25,10 @@
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: #F5F6FA;
+    background-color: #eef1f5; /* Slightly darker background */
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
-    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
 }
 
 .background-grid {
@@ -37,9 +38,9 @@ body {
     width: 100%;
     height: 100%;
     background-image:
-        linear-gradient(rgba(108, 92, 231, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(108, 92, 231, 0.05) 1px, transparent 1px);
-    background-size: 40px 40px;
+        linear-gradient(rgba(108, 92, 231, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(108, 92, 231, 0.03) 1px, transparent 1px);
+    background-size: 35px 35px; /* Slightly smaller grid */
     z-index: -1;
 }
 
@@ -52,8 +53,8 @@ body {
 /* Glass Card Effect */
 .glass-card {
     background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(10px); /* Slightly less blur for general cards */
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 16px;
     border: 1px solid var(--glass-border);
     box-shadow: var(--glass-shadow);
@@ -108,21 +109,15 @@ body {
 }
 
 @keyframes pulse {
-    0% {
-        transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(0, 206, 201, 0.7);
-    }
-    70% {
-        transform: scale(1);
-        box-shadow: 0 0 0 10px rgba(0, 206, 201, 0);
-    }
-    100% {
-        transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(0, 206, 201, 0);
-    }
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 206, 201, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 206, 201, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 206, 201, 0); }
 }
 
 /* Symptom Input Section */
+.symptom-input-container .input-header h2 { /* Target h2 within symptom input */
+    font-size: 1.6rem; /* Slightly larger title for input section */
+}
 .input-header {
     margin-bottom: 1.5rem;
 }
@@ -143,40 +138,48 @@ body {
 }
 
 .symptom-input-wrapper {
-    position: relative; /* For suggestions dropdown positioning */
+    position: relative;
 }
 
 .search-container {
     display: flex;
     gap: 0.75rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem; /* Increased margin */
     position: relative;
+    align-items: flex-start;
 }
 
-#symptom-search {
+#symptom-description {
     flex: 1;
     padding: 1rem 1.25rem;
-    border: none;
+    border: 1px solid rgba(0,0,0,0.1); /* Subtle border for textarea */
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.7); /* Slightly more opaque */
     font-size: 1rem;
     color: var(--text-primary);
-    box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
+    resize: vertical;
+    min-height: 100px; /* Increased min-height */
+    font-family: inherit;
+    line-height: 1.6; /* Increased line-height for readability */
 }
 
-#symptom-search:focus {
+#symptom-description:focus {
     outline: none;
-    box-shadow: 0 4px 20px -5px rgba(108, 92, 231, 0.2);
+    box-shadow: 0 4px 15px -5px rgba(108, 92, 231, 0.25);
     background: rgba(255, 255, 255, 0.9);
+    border-color: var(--primary);
 }
 
-#symptom-search::placeholder {
+#symptom-description::placeholder {
     color: var(--text-secondary);
+    opacity: 0.8;
 }
 
 .ai-button {
     padding: 0 1.25rem;
+    height: 48px;
     border: none;
     border-radius: 12px;
     background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -187,443 +190,248 @@ body {
     gap: 0.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 0.9rem; /* Slightly smaller to fit text */
+    font-size: 0.9rem;
+    flex-shrink: 0;
 }
 
 .ai-button:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 6px 15px -5px rgba(108, 92, 231, 0.4);
 }
-.ai-button:disabled {
-    opacity: 0.7;
-    cursor: wait;
-}
-
-
-.ai-icon {
-    font-size: 1.1rem;
-}
+.ai-button:disabled { opacity: 0.7; cursor: wait; }
+.ai-icon { font-size: 1.1rem; }
 
 .suggestions-dropdown {
     position: absolute;
-    /* top: 100%; Removed to be relative to symptom-input-wrapper */
     left: 0;
-    right: 0;
-    background: rgba(255, 255, 255, 0.98); /* More opaque */
+    width: calc(100% - 130px - 0.75rem); /* Adjust width based on AI button width */
+    background: rgba(255, 255, 255, 0.98);
     border-radius: 12px;
-    margin-top: 0.5rem; /* Space from search bar */
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow */
-    z-index: 1000; /* Ensure it's on top */
-    max-height: 250px;
+    margin-top: 0.5rem;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    max-height: 200px; /* Slightly reduced height */
     overflow-y: auto;
     display: none;
     border: 1px solid rgba(0,0,0,0.05);
 }
+@media (max-width: 768px) {
+    .suggestions-dropdown { width: 100%; }
+}
 
 .suggestion-item {
-    padding: 0.9rem 1.25rem; /* Adjusted padding */
+    padding: 0.8rem 1.1rem; /* Adjusted padding */
     cursor: pointer;
     transition: all 0.2s ease;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 }
-
-.suggestion-item:hover {
-    background: rgba(108, 92, 231, 0.08); /* Darker hover */
-    color: var(--primary);
-}
-.suggestion-item:not(:last-child) {
-    border-bottom: 1px solid rgba(0,0,0,0.03);
-}
-
+.suggestion-item:hover { background: rgba(108, 92, 231, 0.08); color: var(--primary); }
+.suggestion-item:not(:last-child) { border-bottom: 1px solid rgba(0,0,0,0.03); }
 
 .selected-section {
-    margin-top: 1.5rem;
+    margin-top: 1rem; /* Reduced margin */
+    padding: 0.75rem;
+    background-color: rgba(0,0,0,0.015);
+    border-radius: 8px;
+    border: 1px dashed rgba(0,0,0,0.05);
 }
 
 .section-label {
-    font-size: 0.85rem;
+    font-size: 0.8rem; /* Smaller label */
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: var(--text-secondary);
     margin-bottom: 0.75rem;
     font-weight: 600;
+    opacity: 0.8;
 }
 
 .selected-symptoms-container {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    min-height: 3rem; /* Ensures space even when empty */
-    padding: 0.5rem;
-    background-color: rgba(0,0,0,0.02);
-    border-radius: 8px;
+    min-height: 2.5rem; /* Adjusted min-height */
+    padding-top: 0.25rem;
 }
 .symptom-tag.placeholder-tag {
-    background: transparent;
-    border: none;
-    color: var(--text-secondary);
-    opacity: 0.7;
-    padding: 0.5rem 0; /* Adjust padding for placeholder */
+    background: transparent; border: none; color: var(--text-secondary);
+    opacity: 0.6; padding: 0.5rem 0; font-style: italic;
 }
-
 
 .symptom-tag {
-    background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(0, 206, 201, 0.1));
-    backdrop-filter: blur(5px);
-    border-radius: 50px;
-    padding: 0.5rem 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-    border: 1px solid rgba(108, 92, 231, 0.15);
-    transition: all 0.3s ease;
-    color: var(--text-primary);
+    background: linear-gradient(135deg, rgba(108, 92, 231, 0.08), rgba(0, 206, 201, 0.08));
+    border-radius: 50px; padding: 0.5rem 1rem; display: flex; align-items: center;
+    gap: 0.5rem; font-size: 0.9rem; border: 1px solid rgba(108, 92, 231, 0.1);
+    transition: all 0.3s ease; color: var(--text-primary);
 }
-
-.symptom-tag:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px -5px rgba(108, 92, 231, 0.3);
+.symptom-tag:hover { transform: translateY(-2px); box-shadow: 0 4px 10px -5px rgba(108, 92, 231, 0.2); }
+.symptom-tag button { background: none; border: none; color: var(--text-secondary); cursor: pointer;
+    padding: 0; font-size: 1.1rem; line-height: 1; margin-left: 0.25rem; display: flex;
+    align-items: center; opacity: 0.7;
 }
-
-.symptom-tag button {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    cursor: pointer;
-    padding: 0;
-    font-size: 1.1rem; /* Slightly larger for easier click */
-    line-height: 1;
-    margin-left: 0.25rem;
-    display: flex;
-    align-items: center;
-    opacity: 0.7;
-}
-
-.symptom-tag button:hover {
-    color: var(--accent);
-    opacity: 1;
-}
+.symptom-tag button:hover { color: var(--accent); opacity: 1; }
 
 .predict-button {
-    width: 100%;
-    padding: 1.25rem;
-    border: none;
-    border-radius: 12px;
+    width: 100%; padding: 1.25rem; border: none; border-radius: 12px;
     background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: white;
-    font-weight: 600;
-    font-size: 1rem;
-    display: flex;
-    justify-content: space-between; /* Adjusted for better spacing */
-    align-items: center;
-    cursor: pointer;
-    margin-top: 1.5rem;
+    color: white; font-weight: 600; font-size: 1.05rem; /* Slightly larger font */
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; margin-top: 2rem; /* Increased margin */
     transition: all 0.3s ease;
 }
-.predict-button .button-text {
-    flex-grow: 1;
-    text-align: center;
-}
+.predict-button .button-text { flex-grow: 1; text-align: center; }
+.predict-button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 25px -10px rgba(108, 92, 231, 0.5); }
+.predict-button:disabled { background: linear-gradient(135deg, #aaa, #bbb); cursor: wait; opacity: 0.8; }
+.button-icon { font-size: 1.25rem; }
 
-.predict-button:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px -10px rgba(108, 92, 231, 0.5);
-}
-.predict-button:disabled {
-    background: linear-gradient(135deg, #aaa, #bbb);
-    cursor: wait;
-    opacity: 0.8;
-}
-
-.button-icon {
-    font-size: 1.25rem;
-}
-
-/* Results Section */
+/* Results Section - "Report" Styling */
 .results-container {
     position: relative;
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Added for reveal animation */
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 .results-container.hidden {
-    opacity: 0;
-    transform: translateY(30px);
-    pointer-events: none; /* Prevent interaction when hidden */
-    height: 0; /* Collapse space when hidden */
-    overflow: hidden; /* Clip content when hidden */
-    margin-bottom: 0; /* Remove margin when hidden */
+    opacity: 0; transform: translateY(30px); pointer-events: none;
+    height: 0; overflow: hidden; margin-bottom: 0;
 }
 
-.result-card {
-    padding: 2.5rem;
+.result-card { /* This is the main report card */
+    padding: 0; /* Remove padding here, apply to inner elements */
+    background: var(--report-bg); /* Use specific report background */
+    backdrop-filter: blur(15px); /* Slightly more blur for report */
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--report-border-color);
+    box-shadow: 0 10px 40px -10px rgba(31, 38, 135, 0.2); /* More pronounced shadow */
 }
 
-.result-header {
+.report-header-main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    padding: 1.5rem 2rem; /* Padding for header */
+    border-bottom: 1px solid var(--report-border-color);
 }
 
-.result-header h2 {
-    font-size: 1.5rem;
+.report-header-main h2 {
+    font-size: 1.4rem; /* Slightly smaller for report title */
     font-weight: 700;
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: var(--text-primary); /* Solid color for report title */
+    background: none; /* Remove gradient */
+    -webkit-background-clip: unset;
+    background-clip: unset;
+}
+
+.report-content-body {
+    padding: 1.5rem 2rem; /* Padding for the main content of the report */
 }
 
 .confidence-badge {
-    border-radius: 50px;
-    padding: 0.6rem 1.2rem; /* Adjusted padding */
-    font-weight: 700;
-    font-size: 0.9rem; /* Adjusted font size */
-    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+    border-radius: 50px; padding: 0.6rem 1.2rem; font-weight: 700;
+    font-size: 0.9rem; transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 }
-.confidence-badge.high {
-    background: rgba(var(--success), 0.1);
-    border: 1px solid rgba(var(--success), 0.3);
-    color: var(--success);
-}
-.confidence-badge.medium {
-    background: rgba(var(--warning), 0.15);
-    border: 1px solid rgba(var(--warning), 0.4);
-    color: #b08d0b; /* Darker yellow for text */
-}
-.confidence-badge.low {
-    background: rgba(var(--danger), 0.1);
-    border: 1px solid rgba(var(--danger), 0.3);
-    color: var(--danger);
-}
+.confidence-badge.high { background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.3); color: var(--success); }
+.confidence-badge.medium { background: rgba(241, 196, 15, 0.15); border: 1px solid rgba(241, 196, 15, 0.4); color: #b08d0b; }
+.confidence-badge.low { background: rgba(230, 126, 34, 0.1); border: 1px solid rgba(230, 126, 34, 0.3); color: #d35400; }
+.confidence-badge.error { background: rgba(231, 76, 60, 0.1); border: 1px solid rgba(231, 76, 60, 0.3); color: var(--danger); }
 
+.report-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
 
 .diagnosis-main {
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
 }
 
 .diagnosis-chip {
-    background: rgba(108, 92, 231, 0.05); /* Using primary color variant */
-    border: 1px solid rgba(108, 92, 231, 0.15);
-    border-radius: 12px;
-    padding: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    background: rgba(108, 92, 231, 0.05); border: 1px solid rgba(108, 92, 231, 0.15);
+    border-radius: 12px; padding: 1.25rem; display: flex; align-items: center;
+    gap: 1rem; margin-bottom: 1.5rem;
+}
+.chip-icon { font-size: 1.5rem; color: var(--primary); }
+.diagnosis-chip h3 { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+
+.confidence-visualization { margin-top: 1rem; }
+.confidence-track { height: 10px; background: rgba(108, 92, 231, 0.1); border-radius: 5px;
+    margin-bottom: 0.5rem; overflow: hidden; }
+.confidence-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary));
+    border-radius: 5px; width: 0; transition: width 1s cubic-bezier(0.25, 0.1, 0.25, 1); }
+.confidence-labels { display: flex; justify-content: space-between; font-size: 0.8rem;
+    color: var(--text-secondary); }
+
+.report-divider {
+    border: none;
+    height: 1px;
+    background-color: var(--report-border-color);
+    margin: 2rem 0;
 }
 
-.chip-icon {
-    font-size: 1.5rem;
-    color: var(--primary); /* Icon color */
-}
-
-.diagnosis-chip h3 {
-    font-size: 1.4rem; /* Slightly smaller */
-    font-weight: 600; /* Less bold */
-    color: var(--text-primary);
-}
-
-.confidence-visualization {
-    margin-top: 1.5rem;
-}
-
-.confidence-track {
-    height: 10px; /* Slightly thicker */
-    background: rgba(108, 92, 231, 0.1);
-    border-radius: 5px; /* Rounded */
-    margin-bottom: 0.5rem;
-    overflow: hidden;
-}
-
-.confidence-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
-    border-radius: 5px;
-    width: 0;
-    transition: width 1s cubic-bezier(0.25, 0.1, 0.25, 1); /* Smoother transition */
-}
-
-.confidence-labels {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-}
-
-.recommendations-section {
-    margin-top: 2rem;
-}
-
-.recommendations-section h3 {
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-    color: var(--text-primary);
-    font-weight: 600;
-}
-
+.recommendations-section { margin-top: 0; /* Already spaced by divider */ }
 .recommendations-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Wider cards */
-    gap: 1.25rem; /* Increased gap */
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); /* Slightly wider cards */
+    gap: 1.25rem;
 }
-
 .recommendation-card {
-    background: rgba(255, 255, 255, 0.7); /* Slightly more opaque */
-    border-radius: 12px;
-    padding: 1.25rem; /* Increased padding */
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-    display: flex; /* For icon and text alignment */
-    flex-direction: column; /* Stack icon and text */
-    align-items: flex-start; /* Align items to start */
+    background: rgba(255, 255, 255, 0.8); /* More opaque recommendation cards */
+    border-radius: 12px; padding: 1.25rem; border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease; display: flex; flex-direction: column; align-items: flex-start;
 }
-
-.recommendation-card:hover {
-    transform: translateY(-4px) scale(1.02); /* More pronounced hover */
-    box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.15);
-}
-
-.recommendation-card .rec-icon {
-    font-size: 1.5rem; /* Larger icon */
-    margin-bottom: 0.75rem;
-    color: var(--primary);
-    background-color: rgba(var(--primary), 0.1);
-    padding: 0.5rem;
-    border-radius: 8px;
-    display: inline-block; /* To contain padding */
-}
-.recommendation-card .rec-text {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    line-height: 1.5;
-}
-
+.recommendation-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.1); }
+.recommendation-card .rec-icon { font-size: 1.5rem; margin-bottom: 0.75rem; color: var(--primary);
+    background-color: rgba(108, 92, 231, 0.1); padding: 0.5rem; border-radius: 8px; display: inline-block; }
+.recommendation-card .rec-text { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
 
 .ai-footnote {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2.5rem; /* Increased margin */
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.08); /* Slightly darker border */
-    align-items: center; /* Vertically align avatar and text */
+    display: flex; gap: 1rem;
+    padding: 1.5rem 2rem; /* Padding for footnote */
+    border-top: 1px solid var(--report-border-color);
+    align-items: flex-start; /* Align avatar to top of text */
+    background-color: rgba(0,0,0,0.01); /* Subtle background for footnote */
 }
-
-.ai-avatar {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    flex-shrink: 0;
-    font-size: 0.9rem;
+.ai-avatar { width: 36px; height: 36px; background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; flex-shrink: 0; font-size: 0.8rem;
 }
-
-.ai-footnote p {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-}
+.ai-footnote p { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; }
+.ai-footnote p strong { color: var(--text-primary); }
 
 .new-analysis-button {
-    width: 100%;
-    padding: 1rem;
-    border: 1px dashed rgba(108, 92, 231, 0.5);
-    border-radius: 12px;
-    background: transparent;
-    color: var(--primary);
-    font-weight: 600;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 1rem; /* Added margin */
+    width: 100%; padding: 1rem; border: 1px dashed rgba(108, 92, 231, 0.5);
+    border-radius: 12px; background: transparent; color: var(--primary);
+    font-weight: 600; display: flex; justify-content: center; align-items: center;
+    gap: 0.5rem; cursor: pointer; transition: all 0.3s ease; margin-top: 1.5rem; /* Adjusted margin */
 }
-
-.new-analysis-button:hover {
-    background: rgba(108, 92, 231, 0.05);
-    border-style: solid;
-    border-color: rgba(108, 92, 231, 0.7);
-}
-
-.new-analysis-button .icon {
-    font-size: 1.25rem;
-}
-
-/* Animations */
-@keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-5px); }
-    100% { transform: translateY(0px); }
-}
+.new-analysis-button:hover { background: rgba(108, 92, 231, 0.05); border-style: solid; border-color: rgba(108, 92, 231, 0.7); }
+.new-analysis-button .icon { font-size: 1.25rem; }
 
 /* Temporary Message Style */
 .temp-message {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-40px); /* Start off-screen */
-    background-color: var(--dark);
-    color: var(--light);
-    padding: 1rem 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    z-index: 2000;
-    font-size: 0.95rem;
-    opacity: 0;
-    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-40px);
+    background-color: var(--dark); color: var(--light); padding: 1rem 1.5rem;
+    border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 2000;
+    font-size: 0.95rem; opacity: 0; transition: opacity 0.4s ease-out, transform 0.4s ease-out;
 }
-
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .container {
-        padding: 1.5rem 1rem;
-    }
+    .container { padding: 1.5rem 1rem; }
+    .glass-card { padding: 1.5rem; } /* General card padding */
+    .symptom-input-container .input-header h2 { font-size: 1.4rem; }
 
-    .glass-card {
-        padding: 1.5rem;
-    }
-
-    .search-container {
-        flex-direction: column;
-    }
-    .search-container #symptom-search {
-        width: 100%;
-    }
-    .ai-button {
-        width: 100%; /* Full width on mobile */
-        justify-content: center;
-        padding: 0.9rem; /* Adjusted padding */
-    }
-    .suggestions-dropdown {
-       width: 100%; /* Ensure it spans the input width */
-       left: 0;
-    }
-
-
-    .recommendations-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .result-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.75rem;
-    }
-    .diagnosis-chip h3 {
-        font-size: 1.2rem;
-    }
+    .search-container { flex-direction: column; align-items: stretch; }
+    #symptom-description { width: 100%; min-height: 120px; } /* Taller on mobile */
+    .ai-button { width: 100%; justify-content: center; padding: 0.9rem; height: auto; min-height: 44px; }
+    
+    .report-header-main { flex-direction: column; align-items: flex-start; gap: 0.75rem; padding: 1rem 1.5rem; }
+    .report-header-main h2 { font-size: 1.3rem; }
+    .report-content-body { padding: 1rem 1.5rem; }
+    .diagnosis-chip h3 { font-size: 1.2rem; }
+    .recommendations-grid { grid-template-columns: 1fr; }
+    .ai-footnote { padding: 1rem 1.5rem; }
 }
 
 /* Utility Classes */
-.hidden { /* More robust hidden class */
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-}
+.hidden { display: none !important; visibility: hidden !important; opacity: 0 !important; }
