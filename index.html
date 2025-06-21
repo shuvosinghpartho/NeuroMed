@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroMed | AI Symptom Analysis</title>
+    <title>NeuroMed | AI Symptom & Prescription Analysis</title>
     <link rel="stylesheet" href="styles.css">
     <link id='favicon' rel="shortcut icon" href="1.png" type="image/x-png">
 </head>
@@ -22,89 +22,143 @@
             </div>
         </header>
 
-        <main class="prediction-interface">
-            <div class="glass-card symptom-input-container">
-                <div class="input-header">
-                    <h2>Describe Your Symptoms</h2>
-                    <div class="input-subtitle">Provide a detailed description of your health concerns in any language.</div>
-                </div>
-
-                <div class="symptom-input-wrapper">
-                    <div class="search-container">
-                        <textarea id="symptom-description"
-                                  placeholder="E.g., 'For the past 3 days, I've had a sharp pain in my lower back, especially when I bend over. It feels worse in the morning...' (আপনি এখানে বাংলাতেও লিখতে পারেন)"
-                                  rows="5"
-                                  aria-label="Symptom Description"></textarea>
-                        <button id="ai-assist-btn" class="ai-button">
-                            <span class="ai-icon">⟳</span>
-                            AI Assist
-                        </button>
+        <main class="main-content-area">
+            <!-- Symptom Analysis Section -->
+            <div class="prediction-interface">
+                <div class="glass-card symptom-input-container">
+                    <div class="input-header">
+                        <h2>Describe Your Symptoms</h2>
+                        <div class="input-subtitle">Provide a detailed description of your health concerns in any language.</div>
                     </div>
-                    <div id="symptom-suggestions" class="suggestions-dropdown"></div>
 
-                    <div class="selected-section">
-                        <div class="section-label">Optional: Add Specific Symptom Tags</div>
-                        <div id="selected-symptoms" class="selected-symptoms-container">
-                            <!-- Tags will appear here -->
+                    <div class="symptom-input-wrapper">
+                        <div class="search-container">
+                            <textarea id="symptom-description"
+                                      placeholder="E.g., 'For the past 3 days, I've had a sharp pain in my lower back, especially when I bend over. It feels worse in the morning...' (আপনি এখানে বাংলাতেও লিখতে পারেন)"
+                                      rows="5"
+                                      aria-label="Symptom Description"></textarea>
+                            <button id="ai-assist-btn" class="ai-button">
+                                <span class="ai-icon">⟳</span>
+                                AI Assist
+                            </button>
+                        </div>
+                        <div id="symptom-suggestions" class="suggestions-dropdown"></div>
+
+                        <div class="selected-section">
+                            <div class="section-label">Optional: Add Specific Symptom Tags</div>
+                            <div id="selected-symptoms" class="selected-symptoms-container">
+                                <!-- Tags will appear here -->
+                            </div>
                         </div>
                     </div>
+
+                    <button id="predict-btn" class="predict-button">
+                        <span class="button-text">Generate AI Analysis</span>
+                        <span class="button-icon">⇨</span>
+                    </button>
                 </div>
 
-                <button id="predict-btn" class="predict-button">
-                    <span class="button-text">Generate AI Analysis</span>
-                    <span class="button-icon">⇨</span>
-                </button>
+                <div id="results-section" class="results-container hidden">
+                    <div class="glass-card result-card">
+                        <div class="report-header-main">
+                            <h2>AI Preliminary Analysis Report</h2>
+                            <div class="confidence-badge" id="confidence-badge">
+                                <span id="confidence-value">N/A</span>
+                            </div>
+                        </div>
+
+                        <div class="report-content-body">
+                            <div class="diagnosis-main">
+                                <div class="report-section-title">Probable Condition Assessment</div>
+                                <div class="diagnosis-chip">
+                                    <div class="chip-icon">⚠️</div>
+                                    <h3 id="predicted-disease">Awaiting Analysis...</h3>
+                                </div>
+
+                                <div class="confidence-visualization">
+                                    <div class="confidence-track">
+                                        <div class="confidence-fill" id="confidence-fill"></div>
+                                    </div>
+                                    <div class="confidence-labels">
+                                        <span>Low Confidence</span>
+                                        <span>High Confidence</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="report-divider">
+
+                            <div class="recommendations-section">
+                                <div class="report-section-title">Recommended Actions & Considerations</div>
+                                <div class="recommendations-grid" id="recommendations-grid">
+                                    <!-- Recommendation cards will appear here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ai-footnote">
+                            <div class="ai-avatar">AI</div>
+                            <p><strong>Disclaimer:</strong> This symptom analysis is generated by NeuroMed's AI and is for informational purposes only. It is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified human physician for medical decisions.</p>
+                        </div>
+                    </div>
+
+                    <button id="new-symptom-analysis-btn" class="new-analysis-button">
+                        <span class="icon">+</span>
+                        Start New Symptom Analysis
+                    </button>
+                </div>
             </div>
 
-            <div id="results-section" class="results-container hidden">
-                <div class="glass-card result-card">
-                    <div class="report-header-main"> <!-- Changed class for distinct styling -->
-                        <h2>AI Preliminary Analysis Report</h2>
-                        <div class="confidence-badge" id="confidence-badge">
-                            <span id="confidence-value">N/A</span> <!-- Default placeholder -->
-                        </div>
+            <!-- Prescription Analysis Section -->
+            <div class="prescription-analysis-section">
+                <div class="glass-card prescription-input-container">
+                    <div class="input-header">
+                        <h2>Analyze Prescription Image</h2>
+                        <div class="input-subtitle">Upload a clear image of a doctor's prescription for AI analysis.</div>
                     </div>
 
-                    <div class="report-content-body">
-                        <div class="diagnosis-main">
-                            <div class="report-section-title">Probable Condition Assessment</div>
-                            <div class="diagnosis-chip">
-                                <div class="chip-icon">⚠️</div>
-                                <h3 id="predicted-disease">Awaiting Analysis...</h3>
-                            </div>
-
-                            <div class="confidence-visualization">
-                                <div class="confidence-track">
-                                    <div class="confidence-fill" id="confidence-fill"></div>
-                                </div>
-                                <div class="confidence-labels">
-                                    <span>Low Confidence</span>
-                                    <span>High Confidence</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr class="report-divider">
-
-                        <div class="recommendations-section">
-                            <div class="report-section-title">Recommended Actions & Considerations</div>
-                            <div class="recommendations-grid" id="recommendations-grid">
-                                <!-- Recommendation cards will appear here -->
-                            </div>
-                        </div>
+                    <div class="prescription-upload-area">
+                        <label for="prescription-upload-input" class="upload-button-styled">
+                            <span class="upload-icon">📄</span> Choose Prescription Image
+                        </label>
+                        <input type="file" id="prescription-upload-input" accept="image/*">
+                        <span id="prescription-filename" class="filename-display">No file chosen</span>
+                    </div>
+                    
+                    <div id="prescription-preview-container" class="image-preview-container hidden">
+                        <img id="prescription-preview-image" src="#" alt="Prescription Preview">
                     </div>
 
-                    <div class="ai-footnote">
-                        <div class="ai-avatar">AI</div>
-                        <p><strong>Disclaimer:</strong> This analysis is generated by NeuroMed's AI and is for informational purposes only. It is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified human physician for medical decisions.</p>
-                    </div>
+                    <button id="analyze-prescription-btn" class="predict-button" disabled>
+                        <span class="button-text">Analyze Prescription</span>
+                        <span class="button-icon">🖼️</span>
+                    </button>
                 </div>
 
-                <button class="new-analysis-button">
-                    <span class="icon">+</span>
-                    Start New Analysis
-                </button>
+                <div id="prescription-results-section" class="results-container hidden">
+                    <div class="glass-card result-card prescription-result-card">
+                        <div class="report-header-main">
+                            <h2>AI Prescription Analysis</h2>
+                             <button id="copy-prescription-report-btn" class="copy-report-button" title="Copy Report to Clipboard">
+                                <span class="copy-icon">📋</span> Copy
+                            </button>
+                        </div>
+                        <div class="report-content-body" id="prescription-analysis-content">
+                            <!-- AI Prescription Analysis will be populated here -->
+                             <div class="ai-footnote critical-disclaimer-prescription">
+                                <div class="ai-avatar">AI</div>
+                                <p><strong>CRITICAL DISCLAIMER:</strong> This prescription analysis is performed by an AI and is for INFORMATIONAL PURPOSES ONLY. It is NOT a substitute for professional medical or pharmaceutical advice. Misinterpretation or errors can occur. ALWAYS verify any information with your doctor or a qualified pharmacist. DO NOT make any decisions about your medication or treatment based solely on this AI analysis. NeuroMed is not liable for any actions taken based on this analysis.</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                     <button id="new-prescription-analysis-btn" class="new-analysis-button">
+                        <span class="icon">+</span>
+                        Analyze New Prescription
+                    </button>
+                </div>
             </div>
+
         </main>
     </div>
 

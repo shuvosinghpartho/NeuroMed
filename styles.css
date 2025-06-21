@@ -12,252 +12,111 @@
     --success: #2ecc71;
     --warning: #f1c40f;
     --danger: #e74c3c;
-    --report-bg: rgba(255, 255, 255, 0.6); /* Slightly more opaque for report card */
+    --report-bg: rgba(255, 255, 255, 0.6);
     --report-border-color: rgba(0, 0, 0, 0.08);
+    --warning-text: #b08d0b; /* For medium confidence badge text */
+    --danger-orange: #d35400; /* For low confidence badge text */
 }
 
 /* Futuristic Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: #eef1f5; /* Slightly darker background */
+    background-color: #eef1f5;
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
 }
 
 .background-grid {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background-image:
         linear-gradient(rgba(108, 92, 231, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(108, 92, 231, 0.03) 1px, transparent 1px);
-    background-size: 35px 35px; /* Slightly smaller grid */
-    z-index: -1;
+    background-size: 35px 35px; z-index: -1;
 }
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem;
-}
+.container { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; }
 
-/* Glass Card Effect */
 .glass-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px); /* Slightly less blur for general cards */
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 16px;
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
-    padding: 2rem;
-    margin-bottom: 2rem;
+    background: var(--glass-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px; border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow); padding: 2rem; margin-bottom: 2rem;
     transition: all 0.3s ease;
 }
 
 /* App Header */
-.app-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2.5rem;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.logo-icon {
-    font-size: 1.75rem;
-}
-
-.logo h1 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-}
-
-.logo span {
-    color: var(--primary);
-}
-
-.ai-status {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-}
-
+.app-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; }
+.logo { display: flex; align-items: center; gap: 0.75rem; }
+.logo-icon { font-size: 1.75rem; }
+.logo h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.5px; }
+.logo span { color: var(--primary); }
+.ai-status { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--text-secondary); }
 .pulse-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: var(--secondary);
-    box-shadow: 0 0 0 0 rgba(0, 206, 201, 0.7);
-    animation: pulse 1.5s infinite;
+    width: 10px; height: 10px; border-radius: 50%; background-color: var(--secondary);
+    box-shadow: 0 0 0 0 rgba(0, 206, 201, 0.7); animation: pulse 1.5s infinite;
 }
-
 @keyframes pulse {
     0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 206, 201, 0.7); }
     70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 206, 201, 0); }
     100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 206, 201, 0); }
 }
 
-/* Symptom Input Section */
-.symptom-input-container .input-header h2 { /* Target h2 within symptom input */
-    font-size: 1.6rem; /* Slightly larger title for input section */
-}
-.input-header {
-    margin-bottom: 1.5rem;
+/* Main Content Area Separation */
+.main-content-area > div:not(:last-child) {
+    margin-bottom: 3rem; /* Space between symptom and prescription sections */
 }
 
+
+/* Symptom Input & General Input Header */
+.symptom-input-container .input-header h2,
+.prescription-input-container .input-header h2 { font-size: 1.6rem; }
+.input-header { margin-bottom: 1.5rem; }
 .input-header h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 0.25rem;
+    font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem;
     background: linear-gradient(90deg, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
 }
+.input-subtitle { font-size: 0.9rem; color: var(--text-secondary); }
 
-.input-subtitle {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-}
-
-.symptom-input-wrapper {
-    position: relative;
-}
-
-.search-container {
-    display: flex;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem; /* Increased margin */
-    position: relative;
-    align-items: flex-start;
-}
-
+/* Symptom Specific Input */
+.symptom-input-wrapper { position: relative; }
+.search-container { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; position: relative; align-items: flex-start; }
 #symptom-description {
-    flex: 1;
-    padding: 1rem 1.25rem;
-    border: 1px solid rgba(0,0,0,0.1); /* Subtle border for textarea */
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.7); /* Slightly more opaque */
-    font-size: 1rem;
-    color: var(--text-primary);
-    box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-    resize: vertical;
-    min-height: 100px; /* Increased min-height */
-    font-family: inherit;
-    line-height: 1.6; /* Increased line-height for readability */
+    flex: 1; padding: 1rem 1.25rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 12px;
+    background: rgba(255, 255, 255, 0.7); font-size: 1rem; color: var(--text-primary);
+    box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.05); transition: all 0.3s ease;
+    resize: vertical; min-height: 100px; font-family: inherit; line-height: 1.6;
 }
-
 #symptom-description:focus {
-    outline: none;
-    box-shadow: 0 4px 15px -5px rgba(108, 92, 231, 0.25);
-    background: rgba(255, 255, 255, 0.9);
-    border-color: var(--primary);
+    outline: none; box-shadow: 0 4px 15px -5px rgba(108, 92, 231, 0.25);
+    background: rgba(255, 255, 255, 0.9); border-color: var(--primary);
 }
-
-#symptom-description::placeholder {
-    color: var(--text-secondary);
-    opacity: 0.8;
-}
-
+#symptom-description::placeholder { color: var(--text-secondary); opacity: 0.8; }
 .ai-button {
-    padding: 0 1.25rem;
-    height: 48px;
-    border: none;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: white;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 0.9rem;
-    flex-shrink: 0;
+    padding: 0 1.25rem; height: 48px; border: none; border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white;
+    font-weight: 600; display: flex; align-items: center; gap: 0.5rem;
+    cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem; flex-shrink: 0;
 }
-
-.ai-button:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px -5px rgba(108, 92, 231, 0.4);
-}
+.ai-button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 15px -5px rgba(108, 92, 231, 0.4); }
 .ai-button:disabled { opacity: 0.7; cursor: wait; }
 .ai-icon { font-size: 1.1rem; }
-
 .suggestions-dropdown {
-    position: absolute;
-    left: 0;
-    width: calc(100% - 130px - 0.75rem); /* Adjust width based on AI button width */
-    background: rgba(255, 255, 255, 0.98);
-    border-radius: 12px;
-    margin-top: 0.5rem;
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
-    max-height: 200px; /* Slightly reduced height */
-    overflow-y: auto;
-    display: none;
-    border: 1px solid rgba(0,0,0,0.05);
+    position: absolute; left: 0; width: calc(100% - 130px - 0.75rem);
+    background: rgba(255, 255, 255, 0.98); border-radius: 12px; margin-top: 0.5rem;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.15); z-index: 1000;
+    max-height: 200px; overflow-y: auto; display: none; border: 1px solid rgba(0,0,0,0.05);
 }
-@media (max-width: 768px) {
-    .suggestions-dropdown { width: 100%; }
-}
-
-.suggestion-item {
-    padding: 0.8rem 1.1rem; /* Adjusted padding */
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 0.9rem;
-}
+@media (max-width: 768px) { .suggestions-dropdown { width: 100%; } }
+.suggestion-item { padding: 0.8rem 1.1rem; cursor: pointer; transition: all 0.2s ease; font-size: 0.9rem; }
 .suggestion-item:hover { background: rgba(108, 92, 231, 0.08); color: var(--primary); }
 .suggestion-item:not(:last-child) { border-bottom: 1px solid rgba(0,0,0,0.03); }
-
-.selected-section {
-    margin-top: 1rem; /* Reduced margin */
-    padding: 0.75rem;
-    background-color: rgba(0,0,0,0.015);
-    border-radius: 8px;
-    border: 1px dashed rgba(0,0,0,0.05);
-}
-
-.section-label {
-    font-size: 0.8rem; /* Smaller label */
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--text-secondary);
-    margin-bottom: 0.75rem;
-    font-weight: 600;
-    opacity: 0.8;
-}
-
-.selected-symptoms-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    min-height: 2.5rem; /* Adjusted min-height */
-    padding-top: 0.25rem;
-}
-.symptom-tag.placeholder-tag {
-    background: transparent; border: none; color: var(--text-secondary);
-    opacity: 0.6; padding: 0.5rem 0; font-style: italic;
-}
-
+.selected-section { margin-top: 1rem; padding: 0.75rem; background-color: rgba(0,0,0,0.015); border-radius: 8px; border: 1px dashed rgba(0,0,0,0.05); }
+.section-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 0.75rem; font-weight: 600; opacity: 0.8; }
+.selected-symptoms-container { display: flex; flex-wrap: wrap; gap: 0.75rem; min-height: 2.5rem; padding-top: 0.25rem; }
+.symptom-tag.placeholder-tag { background: transparent; border: none; color: var(--text-secondary); opacity: 0.6; padding: 0.5rem 0; font-style: italic; }
 .symptom-tag {
     background: linear-gradient(135deg, rgba(108, 92, 231, 0.08), rgba(0, 206, 201, 0.08));
     border-radius: 50px; padding: 0.5rem 1rem; display: flex; align-items: center;
@@ -265,87 +124,109 @@ body {
     transition: all 0.3s ease; color: var(--text-primary);
 }
 .symptom-tag:hover { transform: translateY(-2px); box-shadow: 0 4px 10px -5px rgba(108, 92, 231, 0.2); }
-.symptom-tag button { background: none; border: none; color: var(--text-secondary); cursor: pointer;
-    padding: 0; font-size: 1.1rem; line-height: 1; margin-left: 0.25rem; display: flex;
-    align-items: center; opacity: 0.7;
-}
+.symptom-tag button { background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 0; font-size: 1.1rem; line-height: 1; margin-left: 0.25rem; display: flex; align-items: center; opacity: 0.7; }
 .symptom-tag button:hover { color: var(--accent); opacity: 1; }
 
+/* General Predict/Analyze Button */
 .predict-button {
     width: 100%; padding: 1.25rem; border: none; border-radius: 12px;
     background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: white; font-weight: 600; font-size: 1.05rem; /* Slightly larger font */
+    color: white; font-weight: 600; font-size: 1.05rem;
     display: flex; justify-content: space-between; align-items: center;
-    cursor: pointer; margin-top: 2rem; /* Increased margin */
-    transition: all 0.3s ease;
+    cursor: pointer; margin-top: 2rem; transition: all 0.3s ease;
 }
 .predict-button .button-text { flex-grow: 1; text-align: center; }
 .predict-button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 25px -10px rgba(108, 92, 231, 0.5); }
 .predict-button:disabled { background: linear-gradient(135deg, #aaa, #bbb); cursor: wait; opacity: 0.8; }
 .button-icon { font-size: 1.25rem; }
 
-/* Results Section - "Report" Styling */
-.results-container {
-    position: relative;
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-}
-.results-container.hidden {
-    opacity: 0; transform: translateY(30px); pointer-events: none;
-    height: 0; overflow: hidden; margin-bottom: 0;
-}
 
-.result-card { /* This is the main report card */
-    padding: 0; /* Remove padding here, apply to inner elements */
-    background: var(--report-bg); /* Use specific report background */
-    backdrop-filter: blur(15px); /* Slightly more blur for report */
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid var(--report-border-color);
-    box-shadow: 0 10px 40px -10px rgba(31, 38, 135, 0.2); /* More pronounced shadow */
-}
-
-.report-header-main {
+/* Prescription Analysis Section Specific Styles */
+.prescription-upload-area {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: rgba(0,0,0,0.02);
+    border-radius: 12px;
+    border: 1px dashed rgba(0,0,0,0.08);
+}
+#prescription-upload-input { display: none; /* Hide default input */ }
+.upload-button-styled {
+    display: inline-flex; /* Use inline-flex for content alignment */
     align-items: center;
-    padding: 1.5rem 2rem; /* Padding for header */
-    border-bottom: 1px solid var(--report-border-color);
+    gap: 0.75rem;
+    padding: 0.9rem 1.5rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(108, 92, 231, 0.2);
+}
+.upload-button-styled:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+}
+.upload-icon { font-size: 1.2rem; }
+.filename-display {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+    font-style: italic;
+}
+.image-preview-container {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 2px dashed rgba(108, 92, 231, 0.3);
+    border-radius: 12px;
+    padding: 1rem;
+    background-color: rgba(255,255,255,0.5);
+    display: flex; /* For centering image if needed */
+    justify-content: center; /* For centering image if needed */
+}
+#prescription-preview-image {
+    max-width: 100%;
+    max-height: 300px; /* Limit preview height */
+    border-radius: 8px;
+    object-fit: contain; /* Ensure aspect ratio is maintained */
 }
 
+/* Results Section (Shared and Specific) */
+.results-container { position: relative; transition: opacity 0.5s ease-out, transform 0.5s ease-out; }
+.results-container.hidden { opacity: 0; transform: translateY(30px); pointer-events: none; height: 0; overflow: hidden; margin-bottom: 0; }
+.result-card { /* Main report card */
+    padding: 0; background: var(--report-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--report-border-color); box-shadow: 0 10px 40px -10px rgba(31, 38, 135, 0.2);
+}
+.report-header-main {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem 2rem; border-bottom: 1px solid var(--report-border-color);
+}
 .report-header-main h2 {
-    font-size: 1.4rem; /* Slightly smaller for report title */
-    font-weight: 700;
-    color: var(--text-primary); /* Solid color for report title */
-    background: none; /* Remove gradient */
-    -webkit-background-clip: unset;
-    background-clip: unset;
+    font-size: 1.4rem; font-weight: 700; color: var(--text-primary);
+    background: none; -webkit-background-clip: unset; background-clip: unset;
 }
+.report-content-body { padding: 1.5rem 2rem; }
 
-.report-content-body {
-    padding: 1.5rem 2rem; /* Padding for the main content of the report */
-}
-
+/* Symptom Analysis Results Specifics */
 .confidence-badge {
     border-radius: 50px; padding: 0.6rem 1.2rem; font-weight: 700;
     font-size: 0.9rem; transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 }
 .confidence-badge.high { background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.3); color: var(--success); }
-.confidence-badge.medium { background: rgba(241, 196, 15, 0.15); border: 1px solid rgba(241, 196, 15, 0.4); color: #b08d0b; }
-.confidence-badge.low { background: rgba(230, 126, 34, 0.1); border: 1px solid rgba(230, 126, 34, 0.3); color: #d35400; }
+.confidence-badge.medium { background: rgba(241, 196, 15, 0.15); border: 1px solid rgba(241, 196, 15, 0.4); color: var(--warning-text); }
+.confidence-badge.low { background: rgba(230, 126, 34, 0.1); border: 1px solid rgba(230, 126, 34, 0.3); color: var(--danger-orange); }
 .confidence-badge.error { background: rgba(231, 76, 60, 0.1); border: 1px solid rgba(231, 76, 60, 0.3); color: var(--danger); }
-
-.report-section-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+.report-section-title { /* General for symptom results */
+    font-size: 1.1rem; font-weight: 600; color: var(--text-primary);
+    margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(0,0,0,0.05);
 }
-
-.diagnosis-main {
-    margin-bottom: 2rem;
-}
-
+.diagnosis-main { margin-bottom: 2rem; }
 .diagnosis-chip {
     background: rgba(108, 92, 231, 0.05); border: 1px solid rgba(108, 92, 231, 0.15);
     border-radius: 12px; padding: 1.25rem; display: flex; align-items: center;
@@ -353,56 +234,162 @@ body {
 }
 .chip-icon { font-size: 1.5rem; color: var(--primary); }
 .diagnosis-chip h3 { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
-
 .confidence-visualization { margin-top: 1rem; }
-.confidence-track { height: 10px; background: rgba(108, 92, 231, 0.1); border-radius: 5px;
-    margin-bottom: 0.5rem; overflow: hidden; }
-.confidence-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary));
-    border-radius: 5px; width: 0; transition: width 1s cubic-bezier(0.25, 0.1, 0.25, 1); }
-.confidence-labels { display: flex; justify-content: space-between; font-size: 0.8rem;
-    color: var(--text-secondary); }
-
-.report-divider {
-    border: none;
-    height: 1px;
-    background-color: var(--report-border-color);
-    margin: 2rem 0;
-}
-
-.recommendations-section { margin-top: 0; /* Already spaced by divider */ }
-.recommendations-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); /* Slightly wider cards */
-    gap: 1.25rem;
-}
+.confidence-track { height: 10px; background: rgba(108, 92, 231, 0.1); border-radius: 5px; margin-bottom: 0.5rem; overflow: hidden; }
+.confidence-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 5px; width: 0; transition: width 1s cubic-bezier(0.25, 0.1, 0.25, 1); }
+.confidence-labels { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-secondary); }
+.report-divider { border: none; height: 1px; background-color: var(--report-border-color); margin: 2rem 0; }
+.recommendations-section { margin-top: 0; }
+.recommendations-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.25rem; }
 .recommendation-card {
-    background: rgba(255, 255, 255, 0.8); /* More opaque recommendation cards */
-    border-radius: 12px; padding: 1.25rem; border: 1px solid rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease; display: flex; flex-direction: column; align-items: flex-start;
+    background: rgba(255, 255, 255, 0.8); border-radius: 12px; padding: 1.25rem;
+    border: 1px solid rgba(0, 0, 0, 0.05); transition: all 0.3s ease;
+    display: flex; flex-direction: column; align-items: flex-start;
 }
 .recommendation-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.1); }
-.recommendation-card .rec-icon { font-size: 1.5rem; margin-bottom: 0.75rem; color: var(--primary);
-    background-color: rgba(108, 92, 231, 0.1); padding: 0.5rem; border-radius: 8px; display: inline-block; }
+.recommendation-card .rec-icon {
+    font-size: 1.5rem; margin-bottom: 0.75rem; color: var(--primary);
+    background-color: rgba(108, 92, 231, 0.1); padding: 0.5rem;
+    border-radius: 8px; display: inline-block;
+}
 .recommendation-card .rec-text { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
 
-.ai-footnote {
-    display: flex; gap: 1rem;
-    padding: 1.5rem 2rem; /* Padding for footnote */
-    border-top: 1px solid var(--report-border-color);
-    align-items: flex-start; /* Align avatar to top of text */
-    background-color: rgba(0,0,0,0.01); /* Subtle background for footnote */
+/* Prescription Analysis Result Display Styling */
+.prescription-result-card .report-content-body {
+    font-size: 0.95rem;
 }
-.ai-avatar { width: 36px; height: 36px; background: linear-gradient(135deg, var(--primary), var(--secondary));
+.report-section-title.prescript-title { /* For main prescription summary title */
+    font-size: 1.3rem;
+    color: var(--primary);
+    border-bottom: 2px solid var(--primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+}
+.prescript-summary-text {
+    margin-bottom: 1.5rem;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+h4.report-subsection-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+}
+h4.warnings-title { color: var(--danger-orange); }
+
+.medication-list, .advice-list, .warnings-list {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1.5rem;
+}
+.medication-item {
+    background-color: rgba(255,255,255,0.7);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+}
+.med-name strong { font-size: 1.05rem; color: var(--primary); }
+.med-detail {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+    padding-left: 1em; /* Indent details */
+}
+.med-detail span { font-weight: 600; color: var(--text-primary); }
+.med-detail.notes { font-style: italic; }
+
+.advice-list li, .warnings-list li {
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: flex-start; /* Align icon with first line of text */
+    gap: 0.5rem;
+}
+.advice-icon, .warning-icon { font-size: 1.1rem; }
+.advice-icon { color: var(--secondary); }
+.warning-icon { color: var(--danger); }
+
+.doctor-details-text {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    background-color: rgba(0,0,0,0.02);
+    padding: 0.75rem;
+    border-radius: 6px;
+    line-height: 1.7;
+}
+.doctor-details-text strong { color: var(--text-primary); }
+
+.analysis-error-message {
+    color: var(--danger);
+    background-color: rgba(231, 76, 60, 0.05);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(231, 76, 60, 0.2);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+.loading-text {
+    font-style: italic;
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 2rem 0;
+}
+.copy-report-button {
+    background: rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.1);
+    color: var(--text-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: background-color 0.2s ease;
+}
+.copy-report-button:hover {
+    background: rgba(0,0,0,0.1);
+    color: var(--text-primary);
+}
+.copy-icon { font-size: 1rem; }
+
+
+/* AI Footnote (Shared and Critical for Prescription) */
+.ai-footnote {
+    display: flex; gap: 1rem; padding: 1.5rem 2rem; border-top: 1px solid var(--report-border-color);
+    align-items: flex-start; background-color: rgba(0,0,0,0.01);
+}
+.ai-avatar {
+    width: 36px; height: 36px; background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;
     font-weight: 700; flex-shrink: 0; font-size: 0.8rem;
 }
 .ai-footnote p { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; }
 .ai-footnote p strong { color: var(--text-primary); }
 
+.critical-disclaimer-prescription {
+    background-color: rgba(224, 86, 86, 0.08); /* Light red background */
+    border-top: 2px solid var(--danger);
+    margin-top: 2rem; /* Ensure it's well-spaced */
+    padding: 1.5rem; /* More padding */
+}
+.critical-disclaimer-prescription .ai-avatar { background: var(--danger); }
+.critical-disclaimer-prescription p { font-size: 0.85rem; line-height: 1.6; color: var(--dark); }
+.critical-disclaimer-prescription p strong { color: var(--danger); font-weight: 700; }
+
+
+/* New Analysis Button (Shared) */
 .new-analysis-button {
     width: 100%; padding: 1rem; border: 1px dashed rgba(108, 92, 231, 0.5);
     border-radius: 12px; background: transparent; color: var(--primary);
     font-weight: 600; display: flex; justify-content: center; align-items: center;
-    gap: 0.5rem; cursor: pointer; transition: all 0.3s ease; margin-top: 1.5rem; /* Adjusted margin */
+    gap: 0.5rem; cursor: pointer; transition: all 0.3s ease; margin-top: 1.5rem;
 }
 .new-analysis-button:hover { background: rgba(108, 92, 231, 0.05); border-style: solid; border-color: rgba(108, 92, 231, 0.7); }
 .new-analysis-button .icon { font-size: 1.25rem; }
@@ -418,11 +405,12 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
     .container { padding: 1.5rem 1rem; }
-    .glass-card { padding: 1.5rem; } /* General card padding */
-    .symptom-input-container .input-header h2 { font-size: 1.4rem; }
+    .glass-card { padding: 1.5rem; }
+    .symptom-input-container .input-header h2,
+    .prescription-input-container .input-header h2 { font-size: 1.4rem; }
 
     .search-container { flex-direction: column; align-items: stretch; }
-    #symptom-description { width: 100%; min-height: 120px; } /* Taller on mobile */
+    #symptom-description { width: 100%; min-height: 120px; }
     .ai-button { width: 100%; justify-content: center; padding: 0.9rem; height: auto; min-height: 44px; }
     
     .report-header-main { flex-direction: column; align-items: flex-start; gap: 0.75rem; padding: 1rem 1.5rem; }
@@ -431,6 +419,10 @@ body {
     .diagnosis-chip h3 { font-size: 1.2rem; }
     .recommendations-grid { grid-template-columns: 1fr; }
     .ai-footnote { padding: 1rem 1.5rem; }
+
+    .upload-button-styled { width: 100%; justify-content: center; }
+    .prescription-upload-area { padding: 0.75rem; }
+    #prescription-preview-image { max-height: 250px; }
 }
 
 /* Utility Classes */
